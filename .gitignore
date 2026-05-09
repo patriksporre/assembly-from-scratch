@@ -3,3 +3,9 @@
 
 # Local C64 tools
 platforms/c64/tools/
+
+
+# Generated C64 files
+*.prg
+*.sym
+*.dbg
