@@ -10,7 +10,7 @@ By the end of this lesson, you should have a repeatable workflow for:
 - Assembling it into a `.prg` file
 - Running that `.prg` file in a C64 emulator
 - Making small changes and trying again
-- Committing the lesson structure to Git
+- Keeping local tool paths out of the Git repository
 
 This lesson is about the workflow.
 
@@ -20,19 +20,28 @@ It is not about writing impressive C64 code yet.
 
 You will create the first C64 lesson folder and prepare the environment needed for later lessons.
 
-The folder will eventually contain:
+The folder is:
 
 ```text
 platforms/c64/lessons/00-environment/
-├── README.md
-├── main.asm
-├── build.sh
-└── .gitignore
 ```
 
-In this lesson, we focus first on installing and verifying the tools.
+The important project-level files and folders for this lesson are:
 
-The first visible C64 program comes in lesson 01.
+```text
+assembly-from-scratch/
+├── .gitignore
+└── platforms/
+    └── c64/
+        ├── tools/
+        │   └── kickassembler/
+        │       └── KickAss.jar
+        └── lessons/
+            └── 00-environment/
+                └── README.md
+```
+
+The `tools/` folder is local to your machine and should not be committed.
 
 ## What this teaches
 
@@ -129,13 +138,13 @@ VICE emulates the Commodore 64.
 
 It lets a modern Mac behave like a C64 closely enough for development and learning.
 
-For this track, we will normally use the C64 emulator called:
+For this track, we use the C64 emulator called:
 
 ```text
 x64sc
 ```
 
-The name means a more accurate C64 emulator within VICE.
+`x64sc` is the more accurate C64 emulator in VICE and is the one we use for this project.
 
 ## Step 1 - Create the lesson folder
 
@@ -185,36 +194,36 @@ The exact Java version is less important than having a working Java runtime that
 
 Download KickAssembler from the official KickAssembler site.
 
-After downloading, place it somewhere stable on your machine.
+Place it somewhere stable on your machine.
 
-A simple option is:
-
-```text
-~/c64/tools/KickAssembler/
-```
-
-Inside that folder, you should have the KickAssembler jar file, commonly named:
+For this project, one simple local convention is:
 
 ```text
-KickAss.jar
+platforms/c64/tools/kickassembler/KickAss.jar
 ```
 
-The exact folder is your choice.
+This keeps the tool close to the C64 track without committing it to Git.
 
-What matters is that you know the path to the jar file.
+The exact path may differ on your machine.
 
-Example path:
+That is fine.
 
-```text
-~/c64/tools/KickAssembler/KickAss.jar
-```
+What matters is that you know the path to `KickAss.jar`.
 
 ## Step 4 - Verify KickAssembler
 
-Run this command, adjusting the path if needed:
+Run KickAssembler manually first.
+
+Use your own local path:
 
 ```bash
-java -jar ~/c64/tools/KickAssembler/KickAss.jar
+java -jar path/to/KickAss.jar
+```
+
+Example shape:
+
+```bash
+java -jar ~/path/to/assembly-from-scratch/platforms/c64/tools/kickassembler/KickAss.jar
 ```
 
 If KickAssembler starts and prints usage or version information, the assembler can run.
@@ -228,7 +237,51 @@ If the command fails, check:
 
 Do not continue until KickAssembler can run from the terminal.
 
-## Step 5 - Install VICE
+## Step 5 - Add a KickAssembler alias
+
+Typing the full Java command every time is inconvenient.
+
+Add an alias to your shell configuration.
+
+On modern macOS, the default shell is usually `zsh`.
+
+Open the configuration file:
+
+```bash
+nano ~/.zshrc
+```
+
+Add this line, replacing the path with your own path:
+
+```bash
+alias kickass='java -jar ~/path/to/assembly-from-scratch/platforms/c64/tools/kickassembler/KickAss.jar'
+```
+
+Save and exit.
+
+In nano:
+
+```text
+Ctrl + O
+Enter
+Ctrl + X
+```
+
+Reload the shell configuration:
+
+```bash
+source ~/.zshrc
+```
+
+Test the alias:
+
+```bash
+kickass
+```
+
+If KickAssembler starts, the alias works.
+
+## Step 6 - Install VICE
 
 Download VICE for macOS from the official VICE site.
 
@@ -239,75 +292,98 @@ Choose the correct macOS build for your Mac:
 
 For macOS, prefer the GTK3 build.
 
-After installation, locate the C64 emulator executable.
-
-Depending on how VICE is packaged and installed, the executable may be available as an application or as a command-line program.
-
-The command-line C64 emulator we want later is usually:
+After installation, open the C64 emulator application:
 
 ```text
-x64sc
+x64sc.app
 ```
 
-## Step 6 - Verify VICE
+If macOS blocks it the first time because it is from an unidentified developer:
 
-Try to start VICE.
+1. Open **System Settings**
+2. Go to **Privacy & Security**
+3. Scroll down to the blocked app message
+4. Click **Open Anyway**
 
-If `x64sc` is available in your terminal path, this may work:
+## Step 7 - Verify VICE
+
+Start `x64sc` from the Applications folder.
+
+If the blue Commodore 64 screen appears, VICE is working.
+
+You can also start it from Terminal with:
 
 ```bash
-x64sc
+open -a x64sc
 ```
 
-If it opens the C64 emulator, VICE is working.
+If that works, create a simple alias.
 
-If the terminal cannot find `x64sc`, VICE may still be installed correctly, but the command-line executable is not in your path.
-
-That is acceptable for now.
-
-In lesson 01, we can either:
-
-- run the `.prg` file from the VICE application, or
-- add the VICE executable folder to the shell path, or
-- create a build script that points directly to the emulator
-
-For now, the goal is simply to confirm that VICE runs.
-
-## Step 7 - Create a place for local tool paths
-
-We do not want to hard-code local machine paths into lesson files that everyone else will use.
-
-For example, this path is local to one machine:
-
-```text
-/Users/[user]/c64/tools/KickAssembler/KickAss.jar
-```
-
-A future build script may need a way to handle local configuration.
-
-For the first version, we can keep it simple and document the expected paths.
-
-Later, if needed, we can add a local configuration file that is ignored by Git.
-
-## Step 8 - Git ignore generated files
-
-Generated C64 program files should usually not be committed.
-
-Create this file in the lesson folder:
+Open your shell configuration:
 
 ```bash
-touch platforms/c64/lessons/00-environment/.gitignore
+nano ~/.zshrc
 ```
 
-Add this content:
+Add:
+
+```bash
+alias x64sc-open='open -a x64sc'
+```
+
+Reload:
+
+```bash
+source ~/.zshrc
+```
+
+Test:
+
+```bash
+x64sc-open
+```
+
+If the C64 emulator opens, the alias works.
+
+## Step 8 - Ignore local tools and macOS metadata
+
+The local tools folder should not be committed to Git.
+
+Generated files and macOS metadata should also be ignored.
+
+Add this to the root `.gitignore` file:
 
 ```gitignore
+# macOS Finder metadata
+.DS_Store
+
+# Local C64 tools
+platforms/c64/tools/
+
+# Generated C64 files
 *.prg
 *.sym
 *.dbg
 ```
 
-This keeps generated files out of Git unless we deliberately decide to include them.
+This keeps the repository focused on source code and documentation.
+
+## Step 9 - Verify the workflow
+
+At this point, these commands should work from any terminal:
+
+```bash
+kickass
+x64sc-open
+```
+
+The first command starts KickAssembler.
+
+The second command starts the C64 emulator.
+
+That is enough for lesson 00.
+
+The first actual program comes in lesson 01.
 
 ## Machine concepts
 
@@ -357,7 +433,7 @@ The build workflow will be introduced once `main.asm` exists.
 The expected future shape is:
 
 ```bash
-java -jar path/to/KickAss.jar main.asm
+kickass main.asm
 ```
 
 This should produce a `.prg` file.
@@ -369,7 +445,7 @@ There is no lesson program to run yet.
 The expected future shape is:
 
 ```bash
-x64sc main.prg
+x64sc-open main.prg
 ```
 
 Or opening the generated `.prg` file from the VICE application.
@@ -379,12 +455,12 @@ Or opening the generated `.prg` file from the VICE application.
 Try these before moving on:
 
 - Run `java -version`
-- Run KickAssembler from the terminal
-- Start VICE
-- Find where `x64sc` is located on your Mac
-- Create the `00-environment` lesson folder
-- Add the `.gitignore` file
-- Commit the lesson README
+- Run KickAssembler manually with `java -jar`
+- Add and test the `kickass` alias
+- Start VICE from Applications
+- Add and test the `x64sc-open` alias
+- Add local tools and generated files to `.gitignore`
+- Check that `.DS_Store` files do not appear in `git status`
 
 ## Common mistakes
 
@@ -400,13 +476,31 @@ If Java works but KickAssembler does not start, the path to `KickAss.jar` is pro
 
 Use Finder or the terminal to locate the actual jar file.
 
-### VICE opens, but `x64sc` does not work in the terminal
+### Hard-coding someone else's path
 
-This usually means VICE is installed, but its command-line tools are not in your shell path.
+Do not copy another person's full local path blindly.
 
-That is not fatal.
+Use the path that matches your own machine.
 
-We can solve it later.
+The alias should point to your local `KickAss.jar`.
+
+### Committing local tools
+
+Do not commit the `platforms/c64/tools/` folder.
+
+That folder is for local convenience.
+
+The repository should contain source code and documentation, not third-party tool binaries.
+
+### VICE opens from Finder, but not from Terminal
+
+Try:
+
+```bash
+open -a x64sc
+```
+
+If that works, use the `x64sc-open` alias.
 
 ### Trying to learn everything at once
 
