@@ -1,0 +1,5 @@
+# macOS Finder metadata
+.DS_Store
+
+# Local C64 tools
+platforms/c64/tools/
