@@ -275,12 +275,12 @@ For now, the goal is simply to confirm that VICE runs.
 
 ## Step 7 - Create a place for local tool paths
 
-We do not want to hard-code Patrik's local machine paths into lesson files that everyone else will use.
+We do not want to hard-code local machine paths into lesson files that everyone else will use.
 
 For example, this path is local to one machine:
 
 ```text
-/Users/patrik/c64/tools/KickAssembler/KickAss.jar
+/Users/[user]/c64/tools/KickAssembler/KickAss.jar
 ```
 
 A future build script may need a way to handle local configuration.
