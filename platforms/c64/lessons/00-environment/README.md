@@ -79,10 +79,31 @@ For the first version of the C64 track, we use:
 | Purpose | Tool |
 |---|---|
 | Editor | Visual Studio Code |
+| Syntax highlighting | KickAss (C64) VS Code extension |
 | Assembler | KickAssembler |
 | Emulator | VICE |
 | Operating system | macOS |
 | Version control | Git and GitHub |
+
+## Optional - VS Code syntax highlighting
+
+For syntax highlighting, install the VS Code extension:
+
+```text
+KickAss (C64)
+```
+
+Marketplace identifier:
+
+```text
+CaptainJiNX.kickass-c64
+```
+
+This extension helps Visual Studio Code recognise KickAssembler-style C64 assembly files.
+
+It is used only for readability.
+
+The actual build workflow still happens through the terminal, so the learner understands what the assembler and emulator are doing.
 
 ## Why these tools?
 
@@ -91,6 +112,8 @@ Visual Studio Code is already part of the project workflow.
 KickAssembler is a practical and well-documented C64 assembler. It gives us a clean path from tiny beginner programs to larger C64 projects later.
 
 VICE is the standard Commodore emulator family. It lets us run C64 programs on a modern Mac.
+
+The syntax-highlighting extension makes assembly files easier to read, but it does not replace the command-line workflow.
 
 The important point is not the tools themselves.
 
@@ -113,6 +136,18 @@ In this project, it is used for:
 Visual Studio Code does not make the program run by itself.
 
 It is the workshop, not the machine.
+
+### KickAss (C64) extension
+
+The KickAss (C64) extension helps Visual Studio Code recognise KickAssembler-style assembly files.
+
+It provides syntax highlighting.
+
+It is a reading and editing aid.
+
+It does not assemble the program for us in this project.
+
+We still run the assembler explicitly from the terminal.
 
 ### KickAssembler
 
@@ -345,7 +380,27 @@ x64sc-open
 
 If the C64 emulator opens, the alias works.
 
-## Step 8 - Ignore local tools and macOS metadata
+## Step 8 - Install optional syntax highlighting
+
+Install the VS Code extension:
+
+```text
+KickAss (C64)
+```
+
+Marketplace identifier:
+
+```text
+CaptainJiNX.kickass-c64
+```
+
+This is optional, but recommended.
+
+It helps make `.asm` files easier to read.
+
+It should not change how the project is built.
+
+## Step 9 - Ignore local tools and macOS metadata
 
 The local tools folder should not be committed to Git.
 
@@ -368,7 +423,7 @@ platforms/c64/tools/
 
 This keeps the repository focused on source code and documentation.
 
-## Step 9 - Verify the workflow
+## Step 10 - Verify the workflow
 
 At this point, these commands should work from any terminal:
 
@@ -459,6 +514,7 @@ Try these before moving on:
 - Add and test the `kickass` alias
 - Start VICE from Applications
 - Add and test the `x64sc-open` alias
+- Install the optional VS Code syntax-highlighting extension
 - Add local tools and generated files to `.gitignore`
 - Check that `.DS_Store` files do not appear in `git status`
 
@@ -501,6 +557,14 @@ open -a x64sc
 ```
 
 If that works, use the `x64sc-open` alias.
+
+### Expecting the VS Code extension to build the project
+
+The syntax-highlighting extension helps with readability.
+
+It does not replace the assembler workflow in this project.
+
+We still build from the terminal so the development loop stays visible.
 
 ### Trying to learn everything at once
 
