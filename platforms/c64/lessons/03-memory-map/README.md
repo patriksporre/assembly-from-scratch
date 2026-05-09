@@ -114,7 +114,6 @@ Current version:
 // Different address.
 // Different part of the machine responds.
 
-
 // -----------------------------------------------------------------------------
 // BASIC loader
 // -----------------------------------------------------------------------------
@@ -137,7 +136,6 @@ Current version:
 
 basic_next_line:
     .word 0                   // End of BASIC program
-
 
 // -----------------------------------------------------------------------------
 // Machine code

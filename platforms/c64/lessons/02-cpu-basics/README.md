@@ -93,7 +93,6 @@ Current version:
 // This program changes the border colour repeatedly by using the accumulator
 // and the X register.
 
-
 // -----------------------------------------------------------------------------
 // BASIC loader
 // -----------------------------------------------------------------------------
@@ -116,7 +115,6 @@ Current version:
 
 basic_next_line:
     .word 0                   // End of BASIC program
-
 
 // -----------------------------------------------------------------------------
 // Machine code
