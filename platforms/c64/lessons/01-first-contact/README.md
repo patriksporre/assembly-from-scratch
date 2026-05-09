@@ -48,6 +48,30 @@ $d020 - border colour
 $d021 - background colour
 ```
 
+## What this lesson deliberately does not do
+
+This lesson does not make the program start automatically with `RUN`.
+
+That is intentional.
+
+For first contact, we keep the start mechanism simple and visible:
+
+```basic
+SYS 49152
+```
+
+The next bonus lesson, `01b-basic-loader`, will show how to add a tiny BASIC loader so the program can be started with:
+
+```basic
+RUN
+```
+
+That keeps this lesson focused on the core machine contact:
+
+```text
+CPU instruction -> memory address -> hardware register -> visible change
+```
+
 ## Files
 
 This lesson contains:
@@ -527,21 +551,33 @@ The source file is what belongs in Git.
 Next lesson:
 
 ```text
-02 - CPU basics
+01b - BASIC loader
 ```
 
-In the next lesson, we slow down and focus on the CPU itself.
+In the next bonus lesson, we keep the same visible effect but change how the program starts.
 
-We will look more carefully at:
+Instead of loading the program and typing:
 
-- The accumulator
-- The X and Y registers
-- Immediate values
-- Memory addressing
-- Labels
-- Simple loops
-- The difference between values and addresses
+```basic
+SYS 49152
+```
 
-This first lesson touched the machine.
+we will add a tiny BASIC loader so the program can be started with:
 
-The next lesson explains more of the CPU that made it happen.
+```basic
+RUN
+```
+
+That lesson will introduce:
+
+- `$0801` as the normal BASIC program start
+- `SYS` as a BASIC command
+- How a BASIC line is represented in memory
+- `.word`
+- `.byte`
+- `.text`
+- The BASIC token for `SYS`
+
+The machine-code effect remains the same.
+
+The new learning is how to make the C64 enter that machine code through a BASIC loader.
