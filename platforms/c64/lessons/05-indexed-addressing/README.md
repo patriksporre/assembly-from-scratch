@@ -172,8 +172,6 @@ basic_next_line:
 start:
     lda #$06                  // Load colour value $06, blue
     sta $d020                 // Store it in the VIC-II border colour register
-
-    lda #$00                  // Load colour value $00, black
     sta $d021                 // Store it in the VIC-II background colour register
 
     ldx #$00                  // Start X at zero
