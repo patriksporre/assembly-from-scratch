@@ -73,4 +73,4 @@ copy:
     cpx #$10                  // Have we copied 16 characters?
     bne copy                  // If X is not 16, keep copying
 
-    rts                       // Return from subroutine
+    rts                       // Return to BASIC
